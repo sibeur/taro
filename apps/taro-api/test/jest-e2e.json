@@ -1,0 +1,21 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@core/media/(.*)": "<rootDir>/../libs/media/src/$1",
+    "@core/media": "<rootDir>/../libs/media/src",
+    "@core/simple-auth/(.*)": "<rootDir>/../libs/simple-auth/src/$1",
+    "@core/simple-auth": "<rootDir>/../libs/simple-auth/src",
+    "@core/common/(.*)": "<rootDir>/../libs/common/src/$1",
+    "@core/common": "<rootDir>/../libs/common/src"
+  }
+}

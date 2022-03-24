@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@core/media": [
+        "libs/media/src"
+      ],
+      "@core/media/*": [
+        "libs/media/src/*"
+      ],
+      "@core/simple-auth": [
+        "libs/simple-auth/src"
+      ],
+      "@core/simple-auth/*": [
+        "libs/simple-auth/src/*"
+      ],
+      "@core/common": [
+        "libs/common/src"
+      ],
+      "@core/common/*": [
+        "libs/common/src/*"
+      ]
+    }
+  }
+}

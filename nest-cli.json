@@ -1,0 +1,57 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/taro-api/src",
+  "projects": {
+    "media": {
+      "type": "library",
+      "root": "libs/media",
+      "entryFile": "index",
+      "sourceRoot": "libs/media/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/media/tsconfig.lib.json"
+      }
+    },
+    "simple-auth": {
+      "type": "library",
+      "root": "libs/simple-auth",
+      "entryFile": "index",
+      "sourceRoot": "libs/simple-auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/simple-auth/tsconfig.lib.json"
+      }
+    },
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
+      }
+    },
+    "taro-api": {
+      "type": "application",
+      "root": "apps/taro-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/taro-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/taro-api/tsconfig.app.json"
+      }
+    },
+    "taro-admin": {
+      "type": "application",
+      "root": "apps/taro-admin",
+      "entryFile": "main",
+      "sourceRoot": "apps/taro-admin/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/taro-admin/tsconfig.app.json"
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/taro-api/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/taro-api"
+}
