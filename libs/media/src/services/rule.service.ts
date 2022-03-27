@@ -1,13 +1,12 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { MongooseRQNService } from '@core/common/rqn/mongo_service.rqn';
 import upload_option from '../configs/upload_option';
 import { MediaRule } from '../entities/media_rule';
 import { RuleRepository } from '../repositories/rule.repository';
-import { MediaRuleModel } from '../schemas/media_rule.schema';
 import { MediaRepository } from '../repositories/media.repository';
+import { RQNService } from '@core/common/rqn/service.rqn';
 
 @Injectable()
-export class RuleService extends MongooseRQNService<MediaRule, MediaRuleModel> {
+export class RuleService extends RQNService<MediaRule> {
   constructor(
     private ruleRepo: RuleRepository,
     private mediaRepo: MediaRepository,
