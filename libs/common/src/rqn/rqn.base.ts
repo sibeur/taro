@@ -25,7 +25,7 @@ export type RQNPaginateResult<Entity> = {
   paginate: MongoPaginate;
 };
 
-export interface IRQN<Entity> {
+export interface IRQNRepository<Entity> {
   find(
     params: RQNDataListParams,
   ): Promise<Entity[] | RQNPaginateResult<Entity>>;

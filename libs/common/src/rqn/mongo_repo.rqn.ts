@@ -1,5 +1,5 @@
 import {
-  IRQN,
+  IRQNRepository,
   RQNDataListParams,
   RQNDataParams,
   RQNFilterable,
@@ -12,7 +12,7 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 export class MongooseRQNRepository<Entity, MongoSchemaModel>
   extends MongoNotation
-  implements IRQN<Entity>
+  implements IRQNRepository<Entity>
 {
   protected model: Model<MongoSchemaModel>;
 

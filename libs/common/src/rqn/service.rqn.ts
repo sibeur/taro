@@ -1,5 +1,5 @@
 import {
-    IRQN,
+    IRQNRepository,
     IRQNService,
     RQNDataListParams,
     RQNDataParams,
@@ -10,8 +10,8 @@ import {
   export class RQNService<Entity>
     implements IRQNService<Entity>
   {
-    private repo: IRQN<Entity>;
-    constructor(repo: IRQN<Entity>) {
+    private repo: IRQNRepository<Entity>;
+    constructor(repo: IRQNRepository<Entity>) {
       this.repo = repo;
     }
     find(
