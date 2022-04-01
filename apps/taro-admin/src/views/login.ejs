@@ -1,0 +1,31 @@
+<%- include('partials/header'); %>
+<div class="container" style="padding-top: 50px;">
+    <div class="columns">
+        <div class="column col-3 col-lg-auto col-mx-auto">
+            <form action="/login" method="post">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title h5">Login</div>
+                    </div>
+                    <div class="card-body">
+                        <%- include('partials/error_toast'); %>
+                        <!-- form input control -->
+                        <div class="form-group">
+                            <label class="form-label" for="clientId">Client ID</label>
+                            <input class="form-input" type="text" id="clientId" name="clientId" required placeholder="Entry your Client ID">
+                        </div>
+                        <!-- form input control -->
+                        <div class="form-group">
+                            <label class="form-label" for="secretKey">Secret Key</label>
+                            <input class="form-input" type="password" id="secretKey" name="secretKey" required placeholder="Entry your Secret Key">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Go!</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('partials/footer'); %>

@@ -10,6 +10,7 @@ import {
   Version,
   UseInterceptors,
   Body,
+  HttpCode,
 } from '@nestjs/common';
 import { MediaService } from '@core/media/services/media.service';
 import { FileUpload } from '@core/media/decorators/file_upload.decorator';
