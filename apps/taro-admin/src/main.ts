@@ -13,7 +13,7 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
   app.useStaticAssets({
-    root: join(__dirname, '..', 'public'),
+    root: join(__dirname, '..', 'taro-admin/public'),
     prefix: '/public/',
   });
   app.setViewEngine({

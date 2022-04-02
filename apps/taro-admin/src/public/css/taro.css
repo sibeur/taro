@@ -1,0 +1,51 @@
+html, body, main{
+    width: 100%;
+    height: 100%;
+}
+
+.taro-sidebar, .taro-content {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.taro-sidebar {
+    background-color: #eee;
+}
+
+.taro-sidebar > section, .taro-content > section {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.taro-content > section {
+    padding: 15px 20px 10px;
+}
+
+.taro-sidebar > section {
+    padding: 10px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.taro-brand {
+    text-align: center;
+}
+
+.taro-brand > span {
+    font-size: 2.5em;
+    font-weight: 600;
+    color: #5755d9;
+}
+
+.taro-nav {
+    padding: 0 5px;
+}
+
+.taro-nav > .taro-action {
+    text-align: center;
+}
+
+.taro-action button, .taro-action a {
+    width: 100%;
+    margin-bottom: 5px;
+}

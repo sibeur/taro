@@ -51,7 +51,7 @@
   "compilerOptions": {
     "webpack": true,
     "tsConfigPath": "apps/taro-api/tsconfig.app.json",
-    "assets": ["**/*.ejs"],
+    "assets": ["**/*.ejs", "public/**/*"],
     "watchAssets": true
   },
   "monorepo": true,
