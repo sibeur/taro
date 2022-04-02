@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   CanActivate,
   ExecutionContext,
   Inject,
@@ -11,30 +10,21 @@ import { decodeBasicAuthToken } from '../helpers/tokenize';
 import { AuthService } from '../services/auth.service';
 import { Role, ROLES_KEY } from '../typesAndInterface/role';
 
-enum AuthGuardErrorMessage {
-  AUTH_INVALID = 'Auth invalid',
-}
-
-function isAuthValid(authMode, authToken: string): boolean {
-  if (authMode != 'Basic') return false;
-  if (!authToken || authToken == '') return false;
-  return true;
-}
-
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthSessionGuard implements CanActivate {
   constructor(
     @Inject(AuthService) private authService: AuthService,
     private reflector: Reflector,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const redirectTo = this.reflector.getAllAndOverride<string>('redirectTo', [
+      context.getHandler(),
+      context.getClass(),
+    ]);
     const request = context.switchToHttp().getRequest();
-    const authHeader = request.headers['authorization'];
-    if (!authHeader)
-      throw new BadRequestException(AuthGuardErrorMessage.AUTH_INVALID);
-    const [authMode, authToken] = authHeader.split(' ');
-    if (!isAuthValid(authMode, authToken))
-      throw new BadRequestException(AuthGuardErrorMessage.AUTH_INVALID);
+    const response = context.switchToHttp().getResponse();
+    const authToken = request.session.get('taro_sess');
+    if (!authToken) return response.status(302).redirect(redirectTo);
     const { clientId, secretKey } = decodeBasicAuthToken(authToken);
     const client: Client = await this.authService.validateCredential(
       clientId,

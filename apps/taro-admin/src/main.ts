@@ -23,8 +23,8 @@ async function bootstrap() {
     templates: join(__dirname, '..', 'taro-admin/views'),
   });
   app.register(secureSession, {
-    secret: 'averylogphrasebiggerthanthirtytwochars',
-    salt: 'mq9hDxBVDbspDR6n',
+    secret: 'JAAzr&gMfq&9q&HPgx?Y5dXagYEA!cJycJ8bt!3e',
+    salt: '!$x6cSFG4h7YgsBh',
   });
   const port = process.env.ADMIN_APP_PORT || 3001;
   await app.listen(port, '0.0.0.0');
