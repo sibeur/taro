@@ -1,26 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import { readFileSync } from 'fs';
+import { Inject, Injectable, Optional } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import auth_config from '../configs/auth_config';
 import { Client } from '../entities/client';
+import { ClientModel } from '../schemas/client.schema';
 import { AuthDriver } from '../typesAndInterface/auth';
-
-const { driver, json_file } = auth_config;
+import { Model } from 'mongoose';
+import { fromJSON } from '@core/common/helpers/entity.helper';
 
 @Injectable()
 export class ClientRepository {
-  private clientJson: Client[];
-  constructor() {
-    if (driver === AuthDriver.JSON_FILE) {
-      this.clientJson = this.parseClientJSONFromFile();
-    }
-  }
+  constructor(
+    @Optional() @Inject('clientJson') private clientJson: Client[],
+    @Optional()
+    @InjectModel(ClientModel.collName)
+    private clientModel: Model<ClientModel>,
+  ) {}
 
   async findClientById(clientId: string): Promise<Client | null> {
     let client: Client | null = null;
-    if (driver === AuthDriver.JSON_FILE)
+    if (auth_config().driver === AuthDriver.JSON_FILE)
       client = this.findClientByIdFromJSON(clientId);
+    else if (auth_config().driver === AuthDriver.DB)
+      client = await this.findClientByIdFromDB(clientId);
 
     return client;
+  }
+
+  isSecretKeyValid(client: Client, secretKey: string) {
+    if (auth_config().driver === AuthDriver.JSON_FILE) {
+      return client.secretKey === secretKey;
+    }
+    return false;
   }
 
   private findClientByIdFromJSON(clientId: string): Client {
@@ -30,13 +40,8 @@ export class ClientRepository {
     return client;
   }
 
-  private parseClientJSONFromFile(): Client[] {
-    const json = JSON.parse(readFileSync(json_file, 'utf8'));
-    if (!Array.isArray(json)) throw new Error('client json invalid');
-
-    const clients = json.map(
-      (c) => new Client(c.clientId, c.secretKey, c.role),
-    );
-    return clients;
+  private async findClientByIdFromDB(clientId: string): Promise<Client> {
+    const client = await this.clientModel.findOne({ clientId });
+    return fromJSON<Client>(client.toJSON());
   }
 }

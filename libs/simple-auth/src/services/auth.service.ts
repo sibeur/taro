@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import auth_config from '../configs/auth_config';
 import { Client } from '../entities/client';
 import { ClientRepository } from '../repositories/client.repository';
-import { AuthDriver } from '../typesAndInterface/auth';
 
 @Injectable()
 export class AuthService {
@@ -12,15 +11,9 @@ export class AuthService {
     secretKey: string,
   ): Promise<Client> {
     const client = await this.clientRepo.findClientById(clientId);
+    console.log(client);
     if (!client) return null;
-    if (!this.isSecretKeyValid(client, secretKey)) return null;
+    if (!this.clientRepo.isSecretKeyValid(client, secretKey)) return null;
     return client;
-  }
-
-  private isSecretKeyValid(client: Client, secretKey: string) {
-    if (auth_config.driver === AuthDriver.JSON_FILE) {
-      return client.secretKey === secretKey;
-    }
-    return false;
   }
 }
