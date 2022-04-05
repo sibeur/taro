@@ -4,6 +4,7 @@ export class Media {
   originalName: string;
   aliasName: string;
   path: string;
+  url?: string;
   size: number;
   mime: string;
   ext: string;

@@ -100,17 +100,16 @@ export class MediaService {
     const { file, ruleName } = uploadData;
     const rule = await this.ruleRepo.getRuleByName(ruleName);
     const { storage } = rule.options as MediaRuleOptions;
-    let mediaURL = null;
     let media: Media = this.prepareStoreParams(file, rule, isCommit);
 
     if (storage == MediaStorageOption.DRIVE) {
       const driveStore = new DriveStore(media, file);
       media = await driveStore.upload();
-      mediaURL = driveStore.toMediaURL();
+      media.url = driveStore.toMediaURL();
     }
 
     const { id } = await this.mediaRepo.create(media);
 
-    return { id, mediaURL };
+    return { id, mediaURL: media.url };
   }
 }

@@ -20,6 +20,9 @@ export class MediaModel {
   path: string;
 
   @Prop()
+  url: string;
+
+  @Prop()
   size: number;
 
   @Prop()
