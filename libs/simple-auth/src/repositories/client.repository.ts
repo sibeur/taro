@@ -22,15 +22,11 @@ export class ClientRepository {
       client = this.findClientByIdFromJSON(clientId);
     else if (auth_config().driver === AuthDriver.DB)
       client = await this.findClientByIdFromDB(clientId);
-
     return client;
   }
 
   isSecretKeyValid(client: Client, secretKey: string) {
-    if (auth_config().driver === AuthDriver.JSON_FILE) {
-      return client.secretKey === secretKey;
-    }
-    return false;
+    return client.secretKey === secretKey;
   }
 
   private findClientByIdFromJSON(clientId: string): Client {
@@ -42,6 +38,7 @@ export class ClientRepository {
 
   private async findClientByIdFromDB(clientId: string): Promise<Client> {
     const client = await this.clientModel.findOne({ clientId });
+    if (!client) return null;
     return fromJSON<Client>(client.toJSON());
   }
 }

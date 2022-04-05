@@ -26,7 +26,7 @@ export class MediaModule {
   static coreRestAPIApp(): DynamicModule {
     return {
       module: MediaModule,
-      imports: [ScheduleModule.forRoot(), SimpleAuthModule],
+      imports: [ScheduleModule.forRoot(), SimpleAuthModule.forFeature()],
       providers: [TaskSchedulerService],
       controllers: [MediaController, MediaRuleController],
     };

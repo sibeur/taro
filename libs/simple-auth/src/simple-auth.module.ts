@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { ClientRepository } from './repositories/client.repository';
 import { Client } from './entities/client';
@@ -24,7 +24,7 @@ const clientJsonFactory = {
 
 const conditionalImport = () => {
   let modules = [];
-  if (auth_config().driver == AuthDriver.DB) {
+  if (auth_config().driver === AuthDriver.DB) {
     modules = [
       ...modules,
       MongooseModule.forFeature([
@@ -35,8 +35,15 @@ const conditionalImport = () => {
   return modules;
 };
 @Module({
-  imports: [...conditionalImport()],
+  imports: [],
   providers: [AuthService, ClientRepository, clientJsonFactory],
   exports: [AuthService],
 })
-export class SimpleAuthModule {}
+export class SimpleAuthModule {
+  static forFeature(): DynamicModule {
+    return {
+      module: SimpleAuthModule,
+      imports: [...conditionalImport()],
+    };
+  }
+}

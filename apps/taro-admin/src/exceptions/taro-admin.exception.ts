@@ -13,6 +13,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse();
     const status = exception.getStatus();
 
-    if (status == HttpStatus.FORBIDDEN) response.render('forbidden');
+    if (status == HttpStatus.FORBIDDEN) return response.view('forbidden');
   }
 }
