@@ -20,6 +20,7 @@ export class MongoPaginateNotation<MongoSchemaModel> {
     model: Model<MongoSchemaModel>,
   ) {
     this.params = paginateParams;
+    if (!this.params) this.params = { limit: 0, page: null };
     if (!this.params?.limit) {
       this.params.limit = parseInt(rqn_config.default_limit);
     }

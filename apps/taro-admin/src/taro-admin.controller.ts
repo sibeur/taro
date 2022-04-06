@@ -3,6 +3,8 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
+  Param,
   Post,
   Render,
   Res,
@@ -16,18 +18,38 @@ import { Session as Sess } from 'fastify-secure-session';
 import { AuthSession } from '@core/simple-auth/decorators/auth.decorator';
 import { Role } from '@core/simple-auth/typesAndInterface/role';
 import { HttpExceptionFilter } from './exceptions/taro-admin.exception';
+import { RuleService } from '@core/media/services/rule.service';
+import { MediaRule } from '@core/media/entities/media_rule';
+import { allowedMimeObjects } from '@core/media/typesAndInterface/media_rule';
+import { TaroAdminService } from './taro-admin.service';
 
 @UseInterceptors(UIReqInterceptor)
 @UseFilters(HttpExceptionFilter)
 @Controller()
 export class TaroAdminController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly auth: AuthService,
+    private readonly admin: TaroAdminService,
+  ) {}
 
   @Get()
   @AuthSession([Role.ADMIN], '/login')
   @Render('index')
-  index() {
-    return { pageTitle: 'Home' };
+  async index() {
+    const data = await this.admin.getTemplateData();
+    return { pageTitle: 'Home', ...data };
+  }
+
+  @Get('rule/:ruleId')
+  @AuthSession([Role.ADMIN], '/login')
+  @Render('showRule')
+  async showRule(@Param('ruleId') ruleId: string) {
+    const [data, rule] = await Promise.all([
+      this.admin.getTemplateData(),
+      this.admin.getRulesById(ruleId),
+    ]);
+    if (!rule) throw new NotFoundException();
+    return { pageTitle: `Rule ${rule.name}`, ...data, rule };
   }
 
   @Get('login')
@@ -45,10 +67,7 @@ export class TaroAdminController {
     @Session() sess: Sess,
   ): Promise<any> {
     const { clientId, secretKey } = body;
-    const client = await this.authService.validateCredential(
-      clientId,
-      secretKey,
-    );
+    const client = await this.auth.validateCredential(clientId, secretKey);
     if (client) {
       const token = Buffer.from(`${clientId}:${secretKey}`).toString('base64');
       sess.set('taro_sess', token);

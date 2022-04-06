@@ -18,13 +18,16 @@ import { DriveStore } from '../base/stores/drive_store.base';
 import { join } from 'path';
 import { createReadStream } from 'fs';
 import { MediaRule } from '../entities/media_rule';
+import { RQNService } from '@core/common/rqn/service.rqn';
 
 @Injectable()
-export class MediaService {
+export class MediaService extends RQNService<Media> {
   constructor(
     private ruleRepo: RuleRepository,
     private mediaRepo: MediaRepository,
-  ) {}
+  ) {
+    super(mediaRepo);
+  }
 
   async upload(
     uploadData: IUploadMedia,

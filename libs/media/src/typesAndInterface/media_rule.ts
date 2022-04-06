@@ -27,3 +27,13 @@ export enum AllowedMimes {
   MICROSOFT_PPT = 'application/vnd.ms-powerpoint',
   CSV = 'text/csv',
 }
+
+export const allowedMimeObjects = () => {
+  let mimes = [];
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  for (const [label, value] of Object.entries(AllowedMimes)) {
+    const formatedLabel = label.toLowerCase().split('_').join(' ');
+    mimes = [...mimes, { label: formatedLabel, value }];
+  }
+  return mimes;
+};

@@ -14,5 +14,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     if (status == HttpStatus.FORBIDDEN) return response.view('forbidden');
+    if (status == HttpStatus.NOT_FOUND) return response.view('not_found');
   }
 }

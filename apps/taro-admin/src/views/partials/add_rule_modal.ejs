@@ -1,0 +1,28 @@
+<div class="modal" id="add-rule-modal">
+    <a href="#close" class="modal-overlay" aria-label="Close"></a>
+    <div class="modal-container">
+      <div class="modal-header">
+        <a href="#close" class="btn btn-clear float-right" aria-label="Close"></a>
+        <div class="modal-title h5">Add new rule</div>
+      </div>
+      <div class="modal-body">
+        <div class="content">
+            <div class="form-group">
+                <label class="form-label" for="input-name">Name</label>
+                <input class="form-input" type="text" id="input-name" placeholder="Enter your rule name">
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#close" class="btn">Cancel</a>
+        <button class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+<script>
+    <% if (mimes) { %>
+        var mimes = <%- mimes %>;
+    <% } else { %>
+        var mimes = null;
+    <% } %>
+</script>

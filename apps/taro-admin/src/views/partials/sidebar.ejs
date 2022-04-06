@@ -1,5 +1,5 @@
 <div class="taro-brand">
-    <span>Taro</span>
+    <a href="/"><span>Taro</span></a>
 </div>
 
 <div class="taro-nav">
@@ -7,19 +7,19 @@
         <li class="nav-item active">
             <a href="javascript:void(0)">Rules</a>
             <ul class="nav">
-                <li class="nav-item">
-                    <a href="#">Images</a>
-                </li>
+                <% rules.forEach(function(rule){ %>
+                    <li class="nav-item">
+                        <a href="/rule/<%= rule.id %>"><%= rule.name %></a>
+                    </li>
+                <% }); %>
             </ul>
         </li>
     </ul>
     <div class="taro-action">
-        <button class="btn btn-primary">
+        <a href="#add-rule-modal" class="btn btn-primary">
             <i class="icon icon-plus"></i>
             Add New Rule
-        </button>
-
-        
+        </a>
     </div>
 </div>
 <a href="/logout" class="btn btn-link" style="width:100%;position: absolute;bottom: 10px;">

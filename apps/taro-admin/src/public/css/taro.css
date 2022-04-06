@@ -31,7 +31,11 @@ html, body, main{
     text-align: center;
 }
 
-.taro-brand > span {
+.taro-brand a:hover {
+    text-decoration: none;
+}
+
+.taro-brand span {
     font-size: 2.5em;
     font-weight: 600;
     color: #5755d9;
