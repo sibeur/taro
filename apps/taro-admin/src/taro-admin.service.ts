@@ -13,7 +13,7 @@ export class TaroAdminService {
   }
 
   async getMimes() {
-    return JSON.stringify(allowedMimeObjects());
+    return allowedMimeObjects();
   }
 
   async getTemplateData() {
