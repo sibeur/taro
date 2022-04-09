@@ -16,13 +16,13 @@ Vue.createApp({
     };
   },
   watch: {
-    name(newValue, oldValue) {
+    name(newValue) {
       this.onValidateName(newValue);
     },
-    maxSize(newValue, oldValue) {
+    maxSize(newValue) {
       this.onValidateMaxSize(newValue);
     },
-    mime(newMime, oldMime) {
+    mime(newMime) {
       this.onSelectMime(newMime);
       this.onValidateMime();
     },
@@ -84,9 +84,44 @@ Vue.createApp({
       this.selectedMimes = [...this.selectedMimes, selectedMime];
       this.allowedMimes = this.allowedMimes.filter((el) => el.value != mime);
     },
-    submitRule() {
+    async submitRule() {
+      const body = {
+        name: this.name,
+        validations: {
+          maxSize: this.maxSize,
+          allowedMimes: this.selectedMimes.map((mime) => mime.value),
+        },
+        options: {
+          storage: this.driver,
+        },
+      };
+      this.isLoading = true;
+      try {
+        const url = `${media_api_url}/rules`;
+        const res = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(body),
+          headers: {
+            version: '1',
+            Authorization: `Basic ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        const dataJSON = await res.json();
+        if (!res.ok) throw dataJSON;
+        this.isLoading = false;
+        location.href = `/rule/${dataJSON.data}`;
+        return;
+      } catch (error) {
+        const { message } = error;
+        alert(message[0]);
+        this.isLoading = false;
+        return;
+      }
+    },
+    async onSubmitRule() {
       if (!this.isFormValid()) return;
-      console.log('submit!');
+      await this.submitRule();
       this.emptyForm();
     },
   },

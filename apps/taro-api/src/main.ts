@@ -12,6 +12,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+  app.enableCors();
   app.register(fmp);
   app.enableVersioning({
     type: VersioningType.HEADER,

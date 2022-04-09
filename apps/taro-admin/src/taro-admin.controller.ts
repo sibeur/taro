@@ -18,9 +18,6 @@ import { Session as Sess } from 'fastify-secure-session';
 import { AuthSession } from '@core/simple-auth/decorators/auth.decorator';
 import { Role } from '@core/simple-auth/typesAndInterface/role';
 import { HttpExceptionFilter } from './exceptions/taro-admin.exception';
-import { RuleService } from '@core/media/services/rule.service';
-import { MediaRule } from '@core/media/entities/media_rule';
-import { allowedMimeObjects } from '@core/media/typesAndInterface/media_rule';
 import { TaroAdminService } from './taro-admin.service';
 
 @UseInterceptors(UIReqInterceptor)

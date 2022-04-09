@@ -42,15 +42,20 @@
         </div>
         <div class="modal-footer">
             <a href="#close" class="btn" style="margin-right: 5px;"  @click="onModalClosed">Cancel</a>
-            <button class="btn btn-primary" :disabled="isLoading" @click="submitRule">Submit</button>
+            <button class="btn btn-primary" :disabled="isLoading" @click="onSubmitRule">Submit</button>
         </div>
     </div>
 </div>
 
 <script>
-    var mimes = <%- JSON.stringify(mimes) %>
+var mimes = <%- JSON.stringify(mimes) %>;
+var media_api_url = '<%- media_api_url %>';
+var token = '<%- token %>';
 </script>
-
+<% if (env == 'production') {%>
+<script src="https://unpkg.com/vue@3.2.31/dist/vue.global.prod.js"></script>
+<% } else { %>
 <script src="https://unpkg.com/vue@3"></script>
+<% } %>
 
 <script src="/public/js/rule_modal.js"></script>
