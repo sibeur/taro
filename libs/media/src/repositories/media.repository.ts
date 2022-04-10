@@ -9,6 +9,14 @@ import { fromJSON } from '@core/common/helpers/entity.helper';
 
 @Injectable()
 export class MediaRepository extends MongooseRQNRepository<Media, MediaModel> {
+  protected filterable: string[] = [
+    'aliasName',
+    'size',
+    'mime',
+    'ext',
+    'commit',
+  ];
+  protected sortable: string[] = ['aliasName', 'size', 'mime', 'ext'];
   constructor(
     @InjectModel(MediaModel.collName) private mediaModel: Model<MediaModel>,
   ) {

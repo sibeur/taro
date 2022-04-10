@@ -32,6 +32,7 @@ export class MongoFilterParser {
   }
 
   private parseBetween(result: MongoFilter): void {
+    if (typeof this.filterStr == 'boolean') return;
     if (this.filterStr.search('<>') == -1) return;
     const betweenValueSplit = this.filterStr.split('<>');
     if (betweenValueSplit.length != 2)

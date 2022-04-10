@@ -1,3 +1,15 @@
+<% if(commitedMedia.length < 1) {%>
+    <div class="empty">
+        <p class="empty-title h5">You have no medias</p>
+        <p class="empty-subtitle">Click the button to start a upload media.</p>
+        <div class="empty-action">
+            <button class="btn btn-primary">Upload Media</button>
+        </div>
+    </div>
+<% } else { %>
+<div style="margin: 10px 5px;">
+    <button class="btn">Upload Media</button>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -9,24 +21,26 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>commited_file.png</td>
-            <td>900</td>
-            <td>png</td>
-            <td>
-                <div class="popover popover-bottom">
-                    <i class="icon icon-more-vert"></i>
-                    <div class="popover-container" style="width: 200px;">
-                      <div class="card">
-                        
-                        <div class="card-body">
-                          ...
+        <% commitedMedia.forEach(function(media){ %>
+            <tr>
+                <td>1</td>
+                <td><a href="<%= media.url %>" target="_blank"><%= media.aliasName %></a></td>
+                <td><%= parseInt(media.size) %></td>
+                <td><span class="tooltip tooltip-bottom" data-tooltip="<%= media.mime %>"><%= media.ext %></span></td>
+                <td>
+                    <div class="popover popover-bottom">
+                        <i class="icon icon-more-vert"></i>
+                        <div class="popover-container" style="width: 200px;">
+                            <div class="card">
+                                <div class="card-body">
+                                    <button class="btn btn-link color-error">Delete Media</button>
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
-            </td>
-        </tr>
+                </td>
+            </tr>
+        <% }); %>
     </tbody>
 </table>
+<% } %>
