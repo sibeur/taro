@@ -1,0 +1,27 @@
+<%- include('partials/layout_start'); %>
+    <div>
+        <%- include('partials/show_rule_header'); %>
+        <div class="divider"></div>
+        <div class="filter">
+            <input type="radio" id="tag-1" class="filter-tag" name="filter-radio" hidden checked>
+            <input type="radio" id="tag-2" class="filter-tag" name="filter-radio" hidden>
+            
+            <div class="filter-nav">
+                <label class="chip" for="tag-1">Commited Media</label>
+                <label class="chip" for="tag-2">Uncommited Media</label>
+            </div>
+            
+            <div class="filter-body" style="width: 100%">
+                <div class="filter-item card" data-tag="tag-1" style="width: 100%">
+                    <%- include('partials/commited_media_table') %>
+                </div>
+                <div class="filter-item card" data-tag="tag-2" style="width: 100%">
+                    <%- include('partials/uncommited_media_table') %>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+<%- include('partials/layout_end'); %>
+
+

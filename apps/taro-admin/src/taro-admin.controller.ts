@@ -39,7 +39,7 @@ export class TaroAdminController {
 
   @Get('rule/:ruleId')
   @AuthSession([Role.ADMIN], '/login')
-  @Render('showRule')
+  @Render('show_rule')
   async showRule(@Param('ruleId') ruleId: string) {
     const [data, rule] = await Promise.all([
       this.admin.getTemplateData(),
