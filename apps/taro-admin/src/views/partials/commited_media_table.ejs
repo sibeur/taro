@@ -21,9 +21,9 @@
         </tr>
     </thead>
     <tbody>
-        <% commitedMedia.forEach(function(media){ %>
+        <% commitedMedia.forEach(function(media, idx){ %>
             <tr>
-                <td>1</td>
+                <td><%= idx + 1 %></td>
                 <td><a href="<%= media.url %>" target="_blank"><%= media.aliasName %></a></td>
                 <td><%= parseInt(media.size) %></td>
                 <td><span class="tooltip tooltip-bottom" data-tooltip="<%= media.mime %>"><%= media.ext %></span></td>

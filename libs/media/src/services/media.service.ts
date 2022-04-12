@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { RuleRepository } from '@core/media/repositories/rule.repository';
-import { Media } from '@core/media/entities/media';
+import { Media, MediaStorageStats } from '@core/media/entities/media';
 import {
   IUploadMedia,
   MediaFileObject,
@@ -64,6 +64,10 @@ export class MediaService extends RQNService<Media> {
 
   async commitMedias(mediaIds: string[]): Promise<boolean> {
     return this.mediaRepo.commitMedias(mediaIds);
+  }
+
+  async getMediaStorageStats(ruleName?: string): Promise<MediaStorageStats> {
+    return this.mediaRepo.getMediaStorageStats(ruleName);
   }
 
   // Private methods

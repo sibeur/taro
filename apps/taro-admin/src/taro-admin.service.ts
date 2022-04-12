@@ -1,5 +1,5 @@
 import { RQNPaginateResult } from '@core/common/rqn/rqn.base';
-import { Media } from '@core/media/entities/media';
+import { Media, MediaStorageStats } from '@core/media/entities/media';
 import { MediaRule } from '@core/media/entities/media_rule';
 import { MediaService } from '@core/media/services/media.service';
 import { RuleService } from '@core/media/services/rule.service';
@@ -51,5 +51,33 @@ export class TaroAdminService {
       },
     })) as RQNPaginateResult<Media>;
     return medias.results;
+  }
+
+  async getMediaStorageStats(ruleName?: string): Promise<unknown> {
+    const stats = await this.media.getMediaStorageStats(ruleName);
+    return {
+      commited: this.formatSizeUnits(stats.commited),
+      uncommited: this.formatSizeUnits(stats.uncommited),
+      commitedPercentage: (stats.commited / stats.total) * 100,
+      uncommitedPercentage: (stats.uncommited / stats.total) * 100,
+      total: this.formatSizeUnits(stats.total),
+    };
+  }
+
+  private formatSizeUnits(bytes) {
+    if (bytes >= 1073741824) {
+      bytes = (bytes / 1073741824).toFixed(2) + ' GB';
+    } else if (bytes >= 1048576) {
+      bytes = (bytes / 1048576).toFixed(2) + ' MB';
+    } else if (bytes >= 1024) {
+      bytes = (bytes / 1024).toFixed(2) + ' KB';
+    } else if (bytes > 1) {
+      bytes = bytes + ' bytes';
+    } else if (bytes == 1) {
+      bytes = bytes + ' byte';
+    } else {
+      bytes = '0 byte';
+    }
+    return bytes;
   }
 }

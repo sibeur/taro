@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { MediaModel } from '@core/media/schemas/media.schema';
 import { Model } from 'mongoose';
-import { Media } from '@core/media/entities/media';
+import { Media, MediaStorageStats } from '@core/media/entities/media';
 import { DateTime } from 'luxon';
 import { MongooseRQNRepository } from '@core/common/rqn/mongo_repo.rqn';
 import { fromJSON } from '@core/common/helpers/entity.helper';
@@ -56,6 +56,7 @@ export class MediaRepository extends MongooseRQNRepository<Media, MediaModel> {
     if (!media) return false;
     return true;
   }
+
   async commitMedias(mediaIds: string[]): Promise<boolean> {
     await this.mediaModel.updateMany(
       {
@@ -64,5 +65,33 @@ export class MediaRepository extends MongooseRQNRepository<Media, MediaModel> {
       { $set: { commit: true } },
     );
     return true;
+  }
+
+  async getMediaStorageStats(ruleName?: string): Promise<MediaStorageStats> {
+    const query = ruleName ? [{ $match: { 'rule.name': ruleName } }] : [];
+    const [resultStats] = await this.mediaModel
+      .aggregate([
+        ...query,
+        {
+          $facet: {
+            commited: [
+              { $match: { commit: true } },
+              { $group: { _id: null, count: { $sum: '$size' } } },
+            ],
+            uncommited: [
+              { $match: { commit: false } },
+              { $group: { _id: null, count: { $sum: '$size' } } },
+            ],
+            total: [{ $group: { _id: null, count: { $sum: '$size' } } }],
+          },
+        },
+      ])
+      .exec();
+    const { commited, uncommited, total } = resultStats;
+    return {
+      commited: parseInt(commited[0]?.count ?? 0),
+      uncommited: parseInt(uncommited[0]?.count ?? 0),
+      total: parseInt(total[0]?.count ?? 0),
+    };
   }
 }

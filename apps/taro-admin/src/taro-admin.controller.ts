@@ -46,16 +46,19 @@ export class TaroAdminController {
       this.admin.getRulesById(ruleId),
     ]);
     if (!rule) throw new NotFoundException();
-    const [commitedMedia, uncommitedMedia] = await Promise.all([
+    const [commitedMedia, uncommitedMedia, mediaStats] = await Promise.all([
       this.admin.getFirstPageMediaByRuleName(rule.name, true),
       this.admin.getFirstPageMediaByRuleName(rule.name, false),
+      this.admin.getMediaStorageStats(rule.name),
     ]);
+
     return {
       pageTitle: `Rule ${rule.name}`,
       ...data,
       rule,
       commitedMedia,
       uncommitedMedia,
+      mediaStats,
     };
   }
 
