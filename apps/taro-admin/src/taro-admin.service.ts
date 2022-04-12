@@ -56,8 +56,10 @@ export class TaroAdminService {
   async getMediaStorageStats(ruleName?: string): Promise<unknown> {
     const stats = await this.media.getMediaStorageStats(ruleName);
     return {
-      commited: this.formatSizeUnits(stats.commited),
-      uncommited: this.formatSizeUnits(stats.uncommited),
+      commited: stats?.commited ? this.formatSizeUnits(stats.commited) : '',
+      uncommited: stats?.uncommited
+        ? this.formatSizeUnits(stats.uncommited)
+        : '',
       commitedPercentage: (stats.commited / stats.total) * 100,
       uncommitedPercentage: (stats.uncommited / stats.total) * 100,
       total: this.formatSizeUnits(stats.total),
