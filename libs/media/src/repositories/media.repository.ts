@@ -15,6 +15,7 @@ export class MediaRepository extends MongooseRQNRepository<Media, MediaModel> {
     'mime',
     'ext',
     'commit',
+    'rule.name',
   ];
   protected sortable: string[] = ['aliasName', 'size', 'mime', 'ext'];
   constructor(

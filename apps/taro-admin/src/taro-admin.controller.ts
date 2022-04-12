@@ -41,13 +41,15 @@ export class TaroAdminController {
   @AuthSession([Role.ADMIN], '/login')
   @Render('show_rule')
   async showRule(@Param('ruleId') ruleId: string) {
-    const [data, rule, commitedMedia, uncommitedMedia] = await Promise.all([
+    const [data, rule] = await Promise.all([
       this.admin.getTemplateData(),
       this.admin.getRulesById(ruleId),
-      this.admin.getFirstPageMediaByRuleId(ruleId),
-      this.admin.getFirstPageMediaByRuleId(ruleId, false),
     ]);
     if (!rule) throw new NotFoundException();
+    const [commitedMedia, uncommitedMedia] = await Promise.all([
+      this.admin.getFirstPageMediaByRuleName(rule.name, true),
+      this.admin.getFirstPageMediaByRuleName(rule.name, false),
+    ]);
     return {
       pageTitle: `Rule ${rule.name}`,
       ...data,

@@ -39,3 +39,4 @@ export class MediaModel {
 }
 
 export const MediaSchema = SchemaFactory.createForClass(MediaModel);
+MediaSchema.index({ 'rule.name': 1 });

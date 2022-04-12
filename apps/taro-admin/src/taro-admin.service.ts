@@ -5,6 +5,7 @@ import { MediaService } from '@core/media/services/media.service';
 import { RuleService } from '@core/media/services/rule.service';
 import { allowedMimeObjects } from '@core/media/typesAndInterface/media_rule';
 import { Injectable } from '@nestjs/common';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class TaroAdminService {
@@ -34,14 +35,14 @@ export class TaroAdminService {
     return this.rule.findById(ruleId);
   }
 
-  async getFirstPageMediaByRuleId(
-    ruleId: string,
-    commit = true,
+  async getFirstPageMediaByRuleName(
+    ruleName: string,
+    commit: boolean,
   ): Promise<unknown> {
     const medias = (await this.media.find({
       select: 'aliasName,size,mime,ext,url',
       filter: {
-        'rule.id': ruleId,
+        'rule.name': ruleName,
         commit,
       },
       paginate: {
