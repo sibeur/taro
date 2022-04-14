@@ -16,7 +16,6 @@ import { MediaEventService } from './services/media-event.service';
 
 @Module({
   imports: [
-    EventEmitterModule.forRoot(),
     MongooseModule.forFeature([
       { name: MediaRuleModel.collName, schema: MediaRuleSchema },
       { name: MediaModel.collName, schema: MediaSchema },
@@ -35,7 +34,11 @@ export class MediaModule {
   static coreRestAPIApp(): DynamicModule {
     return {
       module: MediaModule,
-      imports: [ScheduleModule.forRoot(), SimpleAuthModule.forFeature()],
+      imports: [
+        ScheduleModule.forRoot(),
+        SimpleAuthModule.forFeature(),
+        EventEmitterModule.forRoot(),
+      ],
       providers: [TaskSchedulerService],
       controllers: [MediaController, MediaRuleController],
     };
