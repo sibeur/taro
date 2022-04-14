@@ -24,7 +24,8 @@ export class RuleRepository extends MongooseRQNRepository<
   async getRuleByName(name: string): Promise<MediaRule> {
     const query = await this.mediaRuleModel.findOne({ name });
     if (!query) throw new BadRequestException('Rule not found');
-    const result = fromJSON<MediaRule>(query.toJSON());
+    const { _id, ...data } = query.toJSON();
+    const result = fromJSON<MediaRule>({ ...data, _id: _id.toString() });
     result.options = result.options ?? upload_option;
     return result;
   }

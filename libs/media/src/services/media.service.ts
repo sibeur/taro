@@ -71,7 +71,6 @@ export class MediaService extends RQNService<Media> {
   }
 
   // Private methods
-
   private async validateRule({ ruleName, file }: IUploadMedia): Promise<void> {
     const { validations } = await this.ruleRepo.getRuleByName(ruleName);
     const { maxSize, allowedMimes } = validations as MediaValidationRule;

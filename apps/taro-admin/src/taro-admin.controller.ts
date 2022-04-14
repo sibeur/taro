@@ -47,8 +47,8 @@ export class TaroAdminController {
     ]);
     if (!rule) throw new NotFoundException();
     const [commitedMedia, uncommitedMedia, mediaStats] = await Promise.all([
-      this.admin.getFirstPageMediaByRuleName(rule.name, true),
-      this.admin.getFirstPageMediaByRuleName(rule.name, false),
+      this.admin.getFirstPageMediaByRuleId(rule.id, true),
+      this.admin.getFirstPageMediaByRuleId(rule.id, false),
       this.admin.getMediaStorageStats(rule.name),
     ]);
 
@@ -91,5 +91,12 @@ export class TaroAdminController {
   logout(@Res() res, @Session() sess: Sess) {
     sess.delete();
     return res.status(302).redirect('/login');
+  }
+
+  @Get('rule/:id/drop')
+  @AuthSession([Role.ADMIN], '/login')
+  async drop(@Res() res, @Param('id') id: string) {
+    await this.admin.dropRuleById(id);
+    return res.status(302).redirect('/');
   }
 }

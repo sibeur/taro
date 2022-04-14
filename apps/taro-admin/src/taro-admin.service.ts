@@ -35,14 +35,14 @@ export class TaroAdminService {
     return this.rule.findById(ruleId);
   }
 
-  async getFirstPageMediaByRuleName(
-    ruleName: string,
+  async getFirstPageMediaByRuleId(
+    ruleId: string,
     commit: boolean,
   ): Promise<unknown> {
     const medias = (await this.media.find({
       select: 'aliasName,size,mime,ext,url',
       filter: {
-        'rule.name': ruleName,
+        'rule.id': ruleId,
         commit,
       },
       paginate: {
@@ -64,6 +64,10 @@ export class TaroAdminService {
       uncommitedPercentage: (stats.uncommited / stats.total) * 100,
       total: this.formatSizeUnits(stats.total),
     };
+  }
+
+  async dropRuleById(ruleId: string): Promise<void> {
+    await this.rule.destroyById(ruleId);
   }
 
   private formatSizeUnits(bytes) {
