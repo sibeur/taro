@@ -1,12 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { MediaRepository } from '@core/media/repositories/media.repository';
-import * as fs from 'fs';
-import { promisify } from 'util';
-import { MediaStorageOption } from '@core/media/typesAndInterface/media_rule';
 import { MediaDeleteEvent } from '../typesAndInterface/event';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-const unlink = promisify(fs.unlink);
 
 @Injectable()
 export class TaskSchedulerService {

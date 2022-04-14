@@ -41,7 +41,7 @@ export class MediaRepository extends MongooseRQNRepository<Media, MediaModel> {
           commit: false,
           createdAt: { $lt: DateTime.now().minus({ hours: 1 }) },
         },
-        { path: 1, rule: 1, aliasName: 1 },
+        { _id: 1, path: 1, rule: 1, aliasName: 1 },
       )
       .sort({ createdAt: 1 })
       .limit(limit);

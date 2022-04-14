@@ -10,7 +10,7 @@ import {
   Version,
   UseInterceptors,
   Body,
-  HttpCode,
+  Delete,
 } from '@nestjs/common';
 import { MediaService } from '@core/media/services/media.service';
 import { FileUpload } from '@core/media/decorators/file_upload.decorator';
@@ -22,12 +22,14 @@ import { HttpOkResponseInterceptor } from '@core/common/interceptors/http.interc
 import { MediaIdsDto } from '../dtos/media.dto';
 import { MediaDeleteEvent } from '../typesAndInterface/event';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { TaskSchedulerService } from '../services/task-scheduler.service';
 
 @Controller('media')
 export class MediaController {
   constructor(
     private mediaService: MediaService,
     private eventEmitter: EventEmitter2,
+    private taskService: TaskSchedulerService,
   ) {}
 
   @UseInterceptors(HttpOkResponseInterceptor)
@@ -54,12 +56,21 @@ export class MediaController {
   }
 
   @UseInterceptors(HttpOkResponseInterceptor)
-  @Post('drop')
+  @Delete('drop')
   @Version('1')
   @Auth(Role.ADMIN, Role.UPLOADER)
-  async deleteMedias(@Body() params: MediaIdsDto) {
+  async dropMedias(@Body() params: MediaIdsDto) {
     const medias = await this.mediaService.getMediaByIds(params.mediaIds);
     this.eventEmitter.emit('media.delete', new MediaDeleteEvent(medias));
+    return {};
+  }
+
+  @UseInterceptors(HttpOkResponseInterceptor)
+  @Delete('clean')
+  @Version('1')
+  @Auth(Role.ADMIN, Role.UPLOADER)
+  async cleanMedias() {
+    await this.taskService.cleanMedia();
     return {};
   }
 
