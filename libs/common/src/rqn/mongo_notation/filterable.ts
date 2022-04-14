@@ -69,16 +69,16 @@ export class MongoFilterNotation {
   }
 
   private filterMapper(filterKey: string): MongoFilter | null {
-    if (!this.params[filterKey] || this.params[filterKey] == '') return null;
-    const filter = this.params[filterKey] as string;
+    const filter = this.params[filterKey];
+    if (filter === '' || filter === undefined) return null;
     return new MongoFilterParser(filterKey, filter).parse();
   }
 
   parse(): MongoFilterValue {
     if (!this.params) return {} as MongoFilterValue;
     return this.filterable
-      .map((sortKey) => this.filterMapper(sortKey)?.toValue())
-      .filter((sort) => sort != null)
+      .map((filterKey) => this.filterMapper(filterKey)?.toValue())
+      .filter((filter) => filter != null)
       .reduce((obj, item) => {
         const [key] = Object.keys(item);
         return Object.assign(obj, { [key]: item[key] });
