@@ -54,6 +54,7 @@ export class TaroAdminService {
 
   async getMediaStorageStats(ruleName?: string): Promise<unknown> {
     const stats = await this.media.getMediaStorageStats(ruleName);
+    console.log(stats);
     return {
       commited: stats?.commited ? this.formatSizeUnits(stats.commited) : '',
       uncommited: stats?.uncommited
@@ -69,20 +70,18 @@ export class TaroAdminService {
     await this.rule.destroyById(ruleId);
   }
 
-  private formatSizeUnits(bytes) {
-    if (bytes >= 1073741824) {
-      bytes = (bytes / 1073741824).toFixed(2) + ' GB';
-    } else if (bytes >= 1048576) {
-      bytes = (bytes / 1048576).toFixed(2) + ' MB';
-    } else if (bytes >= 1024) {
-      bytes = (bytes / 1024).toFixed(2) + ' KB';
-    } else if (bytes > 1) {
-      bytes = bytes + ' bytes';
-    } else if (bytes == 1) {
-      bytes = bytes + ' byte';
+  private formatSizeUnits(kb) {
+    if (kb >= 1073741824) {
+      kb = (kb / 1073741824).toFixed(2) + ' TB';
+    } else if (kb >= 1048576) {
+      kb = (kb / 1048576).toFixed(2) + ' GB';
+    } else if (kb >= 1024) {
+      kb = (kb / 1024).toFixed(2) + ' MB';
+    } else if (kb > 1) {
+      kb = kb + ' KB';
     } else {
-      bytes = '0 byte';
+      kb = '0 byte';
     }
-    return bytes;
+    return kb;
   }
 }

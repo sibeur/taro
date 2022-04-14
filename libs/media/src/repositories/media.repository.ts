@@ -103,7 +103,6 @@ export class MediaRepository extends MongooseRQNRepository<Media, MediaModel> {
   }
 
   async getMediaByIds(ids: string[]): Promise<Media[]> {
-    console.log(ids);
     const mongoIds = ids.map((id) => new mongoose.Types.ObjectId(id));
     const data = await this.mediaModel.find({ _id: { $in: mongoIds } });
     return data.map((media) => fromJSON<Media>(media.toJSON()));

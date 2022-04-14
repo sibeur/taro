@@ -45,7 +45,6 @@ Vue.createApp({
       this.onValidateName(this.name);
       this.onValidateMaxSize(this.maxSize);
       this.onValidateMime();
-      console.log(this.errors);
       return isValid;
     },
     onValidateName(value) {
