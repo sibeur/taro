@@ -95,6 +95,6 @@ export class MongooseRQNRepository<Entity, MongoSchemaModel>
 
   async destroyMany(filterParams: RQNFilterable): Promise<void> {
     const filter = this.parseFilter(filterParams);
-    await this.model.deleteOne(filter as object);
+    await this.model.deleteMany(filter as object);
   }
 }

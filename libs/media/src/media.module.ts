@@ -11,15 +11,24 @@ import { TaskSchedulerService } from './services/task-scheduler.service';
 import { RuleService } from './services/rule.service';
 import { MediaRuleController } from './controllers/media-rule.controller';
 import { SimpleAuthModule } from '@core/simple-auth';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { MediaEventService } from './services/media-event.service';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
     MongooseModule.forFeature([
       { name: MediaRuleModel.collName, schema: MediaRuleSchema },
       { name: MediaModel.collName, schema: MediaSchema },
     ]),
   ],
-  providers: [MediaService, MediaRepository, RuleRepository, RuleService],
+  providers: [
+    MediaService,
+    MediaRepository,
+    RuleRepository,
+    RuleService,
+    MediaEventService,
+  ],
   exports: [MediaService, RuleService],
 })
 export class MediaModule {

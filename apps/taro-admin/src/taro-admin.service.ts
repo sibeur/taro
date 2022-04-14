@@ -1,11 +1,10 @@
 import { RQNPaginateResult } from '@core/common/rqn/rqn.base';
-import { Media, MediaStorageStats } from '@core/media/entities/media';
+import { Media } from '@core/media/entities/media';
 import { MediaRule } from '@core/media/entities/media_rule';
 import { MediaService } from '@core/media/services/media.service';
 import { RuleService } from '@core/media/services/rule.service';
 import { allowedMimeObjects } from '@core/media/typesAndInterface/media_rule';
 import { Injectable } from '@nestjs/common';
-import mongoose from 'mongoose';
 
 @Injectable()
 export class TaroAdminService {

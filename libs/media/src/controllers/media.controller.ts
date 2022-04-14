@@ -19,11 +19,16 @@ import { IUploadMedia } from '@core/media/typesAndInterface/media';
 import { Auth } from '@core/simple-auth/decorators/auth.decorator';
 import { Role } from '@core/simple-auth/typesAndInterface/role';
 import { HttpOkResponseInterceptor } from '@core/common/interceptors/http.interceptor';
-import { CommitMediaDto } from '../dtos/media.dto';
+import { MediaIdsDto } from '../dtos/media.dto';
+import { MediaDeleteEvent } from '../typesAndInterface/event';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Controller('media')
 export class MediaController {
-  constructor(private mediaService: MediaService) {}
+  constructor(
+    private mediaService: MediaService,
+    private eventEmitter: EventEmitter2,
+  ) {}
 
   @UseInterceptors(HttpOkResponseInterceptor)
   @Post()
@@ -43,8 +48,18 @@ export class MediaController {
   @Post('commit')
   @Version('1')
   @Auth(Role.ADMIN, Role.UPLOADER)
-  async commitMedias(@Body() params: CommitMediaDto) {
+  async commitMedias(@Body() params: MediaIdsDto) {
     await this.mediaService.commitMedias(params.mediaIds);
+    return {};
+  }
+
+  @UseInterceptors(HttpOkResponseInterceptor)
+  @Post('drop')
+  @Version('1')
+  @Auth(Role.ADMIN, Role.UPLOADER)
+  async deleteMedias(@Body() params: MediaIdsDto) {
+    const medias = await this.mediaService.getMediaByIds(params.mediaIds);
+    this.eventEmitter.emit('media.delete', new MediaDeleteEvent(medias));
     return {};
   }
 

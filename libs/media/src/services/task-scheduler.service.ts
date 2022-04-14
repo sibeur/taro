@@ -4,12 +4,17 @@ import { MediaRepository } from '@core/media/repositories/media.repository';
 import * as fs from 'fs';
 import { promisify } from 'util';
 import { MediaStorageOption } from '@core/media/typesAndInterface/media_rule';
+import { MediaDeleteEvent } from '../typesAndInterface/event';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 const unlink = promisify(fs.unlink);
 
 @Injectable()
 export class TaskSchedulerService {
   private readonly logger = new Logger(TaskSchedulerService.name);
-  constructor(private mediaRepo: MediaRepository) {}
+  constructor(
+    private mediaRepo: MediaRepository,
+    private eventEmitter: EventEmitter2,
+  ) {}
   @Cron(CronExpression.EVERY_2_HOURS)
   async cleanMedia() {
     try {
@@ -19,17 +24,8 @@ export class TaskSchedulerService {
         this.logger.log('There are no media to delete');
         return;
       }
-      const bulkDeleteMedia = medias.map(async (media) => {
-        if (media.rule.options.storage === MediaStorageOption.DRIVE) {
-          if (fs.existsSync(media.path)) unlink(media.path);
-        }
-        await this.mediaRepo.deleteMediaWith({ aliasName: media.aliasName });
-        this.logger.log(
-          `media[${media.rule.name}]: ${media.aliasName} deleted`,
-        );
-      });
-      await Promise.all(bulkDeleteMedia);
-      this.logger.log(`Success to clean ${medias.length} unused media`);
+      this.eventEmitter.emit('media.delete', new MediaDeleteEvent(medias));
+      this.logger.log(`Emit to clean ${medias.length} unused media`);
     } catch (error) {
       this.logger.error(error);
     }

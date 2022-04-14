@@ -34,7 +34,8 @@
                   <div class="popover-container" style="width: auto;">
                       <div class="card">
                           <div class="card-body">
-                              <button class="btn btn-link text-error">Delete Media</button>
+                              <button class="btn btn-link" onclick="commitMedia('<%= media.id %>')">Commit Media</button>
+                              <button class="btn btn-link text-error" onclick="deleteMedia('<%= media.id %>')">Delete Media</button>
                           </div>
                       </div>
                   </div>

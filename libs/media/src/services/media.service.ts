@@ -19,6 +19,7 @@ import { join } from 'path';
 import { createReadStream } from 'fs';
 import { MediaRule } from '../entities/media_rule';
 import { RQNService } from '@core/common/rqn/service.rqn';
+import { RQNFilterable } from '@core/common/rqn/rqn.base';
 
 @Injectable()
 export class MediaService extends RQNService<Media> {
@@ -66,8 +67,17 @@ export class MediaService extends RQNService<Media> {
     return this.mediaRepo.commitMedias(mediaIds);
   }
 
+  async getMediaByIds(ids: string[]): Promise<Media[]> {
+    return this.mediaRepo.getMediaByIds(ids);
+  }
+
   async getMediaStorageStats(ruleName?: string): Promise<MediaStorageStats> {
     return this.mediaRepo.getMediaStorageStats(ruleName);
+  }
+
+  async destroyManyByIds(ids: string[]): Promise<void> {
+    await this.mediaRepo.destroyManyByIds(ids);
+    return;
   }
 
   // Private methods

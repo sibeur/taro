@@ -5,6 +5,7 @@ specifiers:
   '@nestjs/common': ^8.4.0
   '@nestjs/config': ^2.0.0
   '@nestjs/core': ^8.4.0
+  '@nestjs/event-emitter': ^1.1.0
   '@nestjs/mongoose': ^9.0.2
   '@nestjs/platform-fastify': ^8.4.0
   '@nestjs/schedule': ^1.0.2
@@ -49,6 +50,7 @@ dependencies:
   '@nestjs/common': 8.4.0_41a73a83cecc93a04fa529b9098e66bd
   '@nestjs/config': 2.0.0_8b36610a93f76db1b35891575c63ff52
   '@nestjs/core': 8.4.0_8b36610a93f76db1b35891575c63ff52
+  '@nestjs/event-emitter': 1.1.0_1ce925e2290a1cea9e3700e8a60baeb5
   '@nestjs/mongoose': 9.0.2_ef2a628938f879f0f6e116f70fc48789
   '@nestjs/platform-fastify': 8.4.0_31e7036b193d6d3c9cadab18cbb4af84
   '@nestjs/schedule': 1.0.2_1ce925e2290a1cea9e3700e8a60baeb5
@@ -920,6 +922,19 @@ packages:
       uuid: 8.3.2
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@nestjs/event-emitter/1.1.0_1ce925e2290a1cea9e3700e8a60baeb5:
+    resolution: {integrity: sha512-wxQhrPtXSUSD2y7poyBdp0V2b7xD9jCkcenGVhllx3ILkctEYXyY+rAwwWGnDqDxnrN4/MKexkAQBHa2phsNRw==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0
+      '@nestjs/core': ^7.0.0 || ^8.0.0
+      reflect-metadata: ^0.1.12
+    dependencies:
+      '@nestjs/common': 8.4.0_41a73a83cecc93a04fa529b9098e66bd
+      '@nestjs/core': 8.4.0_8b36610a93f76db1b35891575c63ff52
+      eventemitter2: 6.4.5
+      reflect-metadata: 0.1.13
     dev: false
 
   /@nestjs/mongoose/9.0.2_ef2a628938f879f0f6e116f70fc48789:
@@ -2523,6 +2538,10 @@ packages:
   /etag/1.8.1:
     resolution: {integrity: sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /eventemitter2/6.4.5:
+    resolution: {integrity: sha512-bXE7Dyc1i6oQElDG0jMRZJrRAn9QR2xyyFGmBdZleNmyQX0FqGYmhZIrIrpPfm/w//LTo4tVQGOGQcGCb5q9uw==}
     dev: false
 
   /events/3.3.0:

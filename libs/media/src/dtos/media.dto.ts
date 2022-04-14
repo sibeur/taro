@@ -1,6 +1,6 @@
 import { IsArray, IsNotEmpty } from 'class-validator';
 
-export class CommitMediaDto {
+export class MediaIdsDto {
   @IsNotEmpty()
   @IsArray()
   mediaIds: string[];
