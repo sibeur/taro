@@ -9,5 +9,17 @@
     <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
     <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
     <link rel="stylesheet" href="/public/css/taro.css">
+    <script>
+    var mimes = <%- JSON.stringify(mimes) %>;
+    var media_api_url = '<%- media_api_url %>';
+    var token = '<%- token %>';
+    </script>
+    <% if (env == 'production') {%>
+    <script src="https://unpkg.com/vue@3.2.31/dist/vue.global.prod.js"></script>
+    <% } else { %>
+    <script src="https://unpkg.com/vue@3"></script>
+    <% } %>
+    
 </head>
 <body>
+    <%- include('add_rule_modal'); %>

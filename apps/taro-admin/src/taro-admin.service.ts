@@ -54,7 +54,6 @@ export class TaroAdminService {
 
   async getMediaStorageStats(ruleName?: string): Promise<unknown> {
     const stats = await this.media.getMediaStorageStats(ruleName);
-    console.log(stats);
     return {
       commited: stats?.commited ? this.formatSizeUnits(stats.commited) : '',
       uncommited: stats?.uncommited

@@ -1,11 +1,18 @@
-const createNewRuleUI = Vue.createApp({
+const editSelectedMime = ruleData.validations.allowedMimes.map(mime => {
+  return mimes.find(e => e.value == mime)
+})
+const editAllowedMimes = mimes.filter(mime => {
+  return !ruleData.validations.allowedMimes.includes(mime.value)
+})
+const editNewRuleUI = Vue.createApp({
   data() {
     return {
       isLoading: false,
-      allowedMimes: mimes,
-      selectedMimes: [],
-      name: null,
-      maxSize: null,
+      allowedMimes: editAllowedMimes,
+      selectedMimes: editSelectedMime,
+      id: ruleData.id,
+      name: ruleData.name,
+      maxSize: ruleData.validations.maxSize,
       mime: null,
       driver: 'drive',
       errors: {
@@ -96,9 +103,9 @@ const createNewRuleUI = Vue.createApp({
       };
       this.isLoading = true;
       try {
-        const url = `${media_api_url}/rules`;
+        const url = `${media_api_url}/rules/${this.id}`;
         const res = await fetch(url, {
-          method: 'POST',
+          method: 'PUT',
           body: JSON.stringify(body),
           headers: {
             version: '1',
@@ -109,7 +116,7 @@ const createNewRuleUI = Vue.createApp({
         const dataJSON = await res.json();
         if (!res.ok) throw dataJSON;
         this.isLoading = false;
-        location.href = `/rule/${dataJSON.data}`;
+        location.href = `/rule/${this.id}`;
         return;
       } catch (error) {
         const { message } = error;
@@ -124,4 +131,4 @@ const createNewRuleUI = Vue.createApp({
       this.emptyForm();
     },
   },
-}).mount('#add-rule-modal');
+}).mount('#edit-rule-modal');

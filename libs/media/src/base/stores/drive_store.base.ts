@@ -19,7 +19,8 @@ export class DriveStore implements Store {
   async upload(): Promise<Media> {
     const options: MediaRuleOptions = this.media.rule
       .options as MediaRuleOptions;
-    this.media.path = `${options.path}/${this.media.aliasName}`;
+    const storagePath = options?.path ?? 'storage';
+    this.media.path = `${storagePath}/${this.media.aliasName}`;
     await pipeline(
       this.file.binary,
       createWriteStream(join(process.cwd(), this.media.path)),
