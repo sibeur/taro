@@ -28,7 +28,7 @@ export class MediaRuleController {
   constructor(private ruleService: RuleService) {}
 
   @Get()
-  @Auth(Role.ADMIN)
+  @Auth(Role.ADMIN, Role.UPLOADER)
   async index(@RQNParams() params: RQNDataListParams) {
     return {
       data: await this.ruleService.find(params),
@@ -36,7 +36,7 @@ export class MediaRuleController {
   }
 
   @Get(':id')
-  @Auth(Role.ADMIN)
+  @Auth(Role.ADMIN, Role.UPLOADER)
   async show(@Param('id') id: string) {
     const data = await this.ruleService.findById(id);
     if (!data) throw new NotFoundException();
