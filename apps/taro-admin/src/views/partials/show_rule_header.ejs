@@ -4,10 +4,11 @@
             <h1>Rule <%= rule.name %></h1>
         </div>
         <div class="column col-5">
-            <p style="margin: 0;"><strong>Size Ratio (<%= mediaStats.total %>):</strong></p>
-            <div class="bar">
-                <div class="bar-item tooltip tooltip-bottom" data-tooltip="Commited Media (<%= mediaStats.commited %>)" style="width:<%= mediaStats.commitedPercentage %>%;"><%= mediaStats.commited %></div>
-                <div class="bar-item tooltip tooltip-bottom" data-tooltip="Uncommited Media (<%= mediaStats.uncommited %>)" style="width:<%= mediaStats.uncommitedPercentage %>%;background:#818bd5;"><%= mediaStats.uncommited %></div>
+            <p style="margin: 0;"><strong>Size Ratio <span v-if="totalStats != ''">({{ totalStats }})</span>:</strong></p>
+            <i v-if="isStatsLoading" class="loading"></i>
+            <div v-if="!isStatsLoading" class="bar">
+                <div class="bar-item tooltip tooltip-bottom" :data-tooltip="`Commited Media (${commitedStats})`" :style="`width:${commitedPercentageStats}%;`">{{ commitedStats }}</div>
+                <div class="bar-item tooltip tooltip-bottom" :data-tooltip="`Uncommited Media (${uncommitedStats})`" :style="`width:${uncommitedPercentageStats}%;background:#818bd5;`">{{ uncommitedStats }}</div>
             </div>
         </div>
         <div class="column col-1">

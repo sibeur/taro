@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   Body,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { MediaService } from '@core/media/services/media.service';
 import { FileUpload } from '@core/media/decorators/file_upload.decorator';
@@ -23,6 +24,8 @@ import { MediaIdsDto } from '../dtos/media.dto';
 import { MediaDeleteEvent } from '../typesAndInterface/event';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { TaskSchedulerService } from '../services/task-scheduler.service';
+import { RQNParams } from '@core/common/decorators/rqn.decorator';
+import { RQNDataListParams } from '@core/common/rqn/rqn.base';
 
 @Controller('media')
 export class MediaController {
@@ -31,6 +34,26 @@ export class MediaController {
     private eventEmitter: EventEmitter2,
     private taskService: TaskSchedulerService,
   ) {}
+  
+  @UseInterceptors(HttpOkResponseInterceptor)
+  @Version('1')
+  @Get()
+  @Auth(Role.ADMIN, Role.UPLOADER)
+  async index(@RQNParams() params: RQNDataListParams) {
+    return {
+      data: await this.mediaService.find(params),
+    };
+  }
+
+  @UseInterceptors(HttpOkResponseInterceptor)
+  @Version('1')
+  @Get(':ruleName/storage-stats')
+  @Auth(Role.ADMIN, Role.UPLOADER)
+  async stats(@Param('ruleName') ruleName: string) {
+    return {
+      data: await this.mediaService.getMediaStorageStats(ruleName),
+    };
+  }
 
   @UseInterceptors(HttpOkResponseInterceptor)
   @Post()

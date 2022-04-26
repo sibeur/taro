@@ -1,48 +1,48 @@
-<% if(uncommitedMedia.length < 1) {%>
-  <div class="empty">
-      <p class="empty-title h5">You have no medias</p>
-      <p class="empty-subtitle">Click the button to start a upload media.</p>
-      <div class="empty-action">
-          <button class="btn btn-primary">Upload Media</button>
-      </div>
-  </div>
-<% } else { %>
-<div style="margin: 10px 5px;">
-  <button class="btn">Upload Media</button>
-  <button class="btn btn-error tooltip tooltip-bottom" onclick="cleanMedia()" data-tooltip="Clean Uncommited Media">Clean Media</button>
+<div v-if="uncommitedMedia.length == 0" class="empty">
+    <p class="empty-title h5">You have no medias</p>
+    <p class="empty-subtitle">Click the button to start a upload media.</p>
+    <div class="empty-action">
+        <button class="btn btn-primary">Upload Media</button>
+    </div>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Size (KB.)</th>
-            <th>Ext</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-      <% uncommitedMedia.forEach(function(media, idx){ %>
-        <tr>
-            <td><%= idx + 1 %></td>
-            <td><a href="<%= media.url %>" target="_blank"><%= media.aliasName %></a></td>
-            <td><%= parseInt(media.size) %></td>
-            <td><span class="tooltip tooltip-bottom" data-tooltip="<%= media.mime %>"><%= media.ext %></span></td>
-            <td>
-              <div class="popover popover-bottom">
-                  <i class="icon icon-more-vert"></i>
-                  <div class="popover-container" style="width: auto;">
-                      <div class="card">
-                          <div class="card-body">
-                              <button class="btn btn-link" onclick="commitMedia('<%= media.id %>')">Commit Media</button>
-                              <button class="btn btn-link text-error" onclick="dropMedia('<%= media.id %>')">Delete Media</button>
+<div v-if="uncommitedMedia.length > 0">
+    <div style="margin: 10px 5px;">
+      <button class="btn" style="margin-right: 5px;">Upload Media</button>
+      <button class="btn btn-error tooltip tooltip-bottom" @click="cleanMedia()" data-tooltip="Clean Uncommited Media">Clean Media</button>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Size (KB.)</th>
+                <th>Ext</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-if="isUnCommitedMediaLoading">
+                <td colspan="5" style="text-align: center;margin: 10px 0px;"><i class="loading"></i></td>
+            </tr>
+            <tr v-for="(media,index) in uncommitedMedia">
+                <td>{{ index + 1 }}</td>
+                <td><a :href="media.url" target="_blank">{{ media.aliasName }}</a></td>
+                <td>{{ parseInt(media.size) }}</td>
+                <td><span class="tooltip tooltip-bottom" :data-tooltip="media.mime">{{media.ext}}</span></td>
+                <td>
+                  <div class="popover popover-bottom">
+                      <i class="icon icon-more-vert"></i>
+                      <div class="popover-container" style="width: auto;">
+                          <div class="card">
+                              <div class="card-body">
+                                  <button class="btn btn-link" @click="commitMedia(media.id)">Commit Media</button>
+                                  <button class="btn btn-link text-error" @click="dropMedia(media.id)">Delete Media</button>
+                              </div>
                           </div>
                       </div>
                   </div>
-              </div>
-            </td>
-        </tr>
-    <% }); %>
-    </tbody>
-</table>
-<% } %>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

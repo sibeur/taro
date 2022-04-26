@@ -53,34 +53,10 @@ export class TaroAdminService {
   }
 
   async getMediaStorageStats(ruleName?: string): Promise<unknown> {
-    const stats = await this.media.getMediaStorageStats(ruleName);
-    return {
-      commited: stats?.commited ? this.formatSizeUnits(stats.commited) : '',
-      uncommited: stats?.uncommited
-        ? this.formatSizeUnits(stats.uncommited)
-        : '',
-      commitedPercentage: (stats.commited / stats.total) * 100,
-      uncommitedPercentage: (stats.uncommited / stats.total) * 100,
-      total: this.formatSizeUnits(stats.total),
-    };
+    return this.media.getMediaStorageStats(ruleName)
   }
 
   async dropRuleById(ruleId: string): Promise<void> {
     await this.rule.destroyById(ruleId);
-  }
-
-  private formatSizeUnits(kb) {
-    if (kb >= 1073741824) {
-      kb = (kb / 1073741824).toFixed(2) + ' TB';
-    } else if (kb >= 1048576) {
-      kb = (kb / 1048576).toFixed(2) + ' GB';
-    } else if (kb >= 1024) {
-      kb = (kb / 1024).toFixed(2) + ' MB';
-    } else if (kb > 1) {
-      kb = kb + ' KB';
-    } else {
-      kb = '0 byte';
-    }
-    return kb;
   }
 }

@@ -19,7 +19,6 @@ import { join } from 'path';
 import { createReadStream } from 'fs';
 import { MediaRule } from '../entities/media_rule';
 import { RQNService } from '@core/common/rqn/service.rqn';
-import { RQNFilterable } from '@core/common/rqn/rqn.base';
 
 @Injectable()
 export class MediaService extends RQNService<Media> {
@@ -79,6 +78,7 @@ export class MediaService extends RQNService<Media> {
     await this.mediaRepo.destroyManyByIds(ids);
     return;
   }
+  
 
   // Private methods
   private async validateRule({ ruleName, file }: IUploadMedia): Promise<void> {
