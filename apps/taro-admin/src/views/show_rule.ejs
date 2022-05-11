@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 <script>
     var ruleData = <%- JSON.stringify(rule) %>;
@@ -28,6 +28,8 @@
     var uncommitedMedia = <%- JSON.stringify(uncommitedMedia) %>;
     var mediaStats = <%- JSON.stringify(mediaStats) %>;
 </script>
+<script type="module" src="/public/js/taro-comp/build/taro-web-component.esm.js"></script>
+<script nomodule src="/public/js/taro-comp/build/taro-web-component.js"></script>
 <script src="/public/js/taro_media_show.js"></script>
 <%- include('partials/edit_rule_modal'); %>
 <%- include('partials/layout_end'); %>

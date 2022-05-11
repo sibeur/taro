@@ -2,12 +2,12 @@
     <p class="empty-title h5">You have no medias</p>
     <p class="empty-subtitle">Click the button to start a upload media.</p>
     <div class="empty-action">
-        <button class="btn btn-primary">Upload Media</button>
+        <a href="#upload-modal" class="btn btn-primary">Upload Media</a>
     </div>
 </div>
 <div v-if="uncommitedMedia.length > 0">
     <div style="margin: 10px 5px;">
-      <button class="btn" style="margin-right: 5px;">Upload Media</button>
+      <a href="#upload-modal" class="btn" style="margin-right: 5px;">Upload Media</a>
       <button class="btn btn-error tooltip tooltip-bottom" @click="cleanMedia()" data-tooltip="Clean Uncommited Media">Clean Media</button>
     </div>
     <table class="table">

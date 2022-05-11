@@ -18,9 +18,10 @@ const mediaShowUI = Vue.createApp({
         commitedMedia,
         uncommitedMedia,
         stats: mediaStats,
+        uploadContainer: null,
         isCommitedMediaLoading: false,
         isUnCommitedMediaLoading: false,
-        isStatsLoading: false
+        isStatsLoading: false,
       };
     },
     computed: {
@@ -93,6 +94,15 @@ const mediaShowUI = Vue.createApp({
                 this.isUnCommitedMediaLoading = false;
                 return;
             }
+        },
+        async commitUpload(){
+          await this.uploadContainer.commit(),
+          await Promise.all([
+            this.loadCommitedMedia(),
+            this.loadUnCommitedMedia(),
+            this.loadStats()
+          ])
+          location.href = "#close"
         },
         async loadCommitedMedia(page = 1) {
             try {
@@ -205,5 +215,15 @@ const mediaShowUI = Vue.createApp({
             }
           }
     },
+    mounted() {
+      this.uploadContainer = document.querySelector('taro-container')
+      const ctx = this;
+      this.uploadContainer.addEventListener('uploadCompleted', async event => { 
+        await Promise.all([
+          ctx.loadStats(),
+          ctx.loadUnCommitedMedia()
+        ])
+      })
+    }
   }).mount('#taro-media-show');
   

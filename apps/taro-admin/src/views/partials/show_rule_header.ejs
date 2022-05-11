@@ -19,3 +19,20 @@
         </div>
     </div>
 </div>
+<div class="modal" id="upload-modal">
+    <a href="#close" class="modal-overlay" aria-label="Close"></a>
+    <div class="modal-container">
+      <div class="modal-header">
+        <a href="#close" class="btn btn-clear float-right" aria-label="Close"></a>
+        <div class="modal-title h5">Upload</div>
+      </div>
+      <div class="modal-body">
+        <div class="content">
+          <taro-container server-url="<%- media_api_url %>" apiKey="<%- token %>" rule="<%- rule.name %>"></taro-container>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" @click="commitUpload">Commit</button>
+      </div>
+    </div>
+  </div>
