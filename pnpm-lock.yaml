@@ -1,5 +1,10 @@
 lockfileVersion: 5.3
 
+overrides:
+  minimist@<1.2.6: '>=1.2.6'
+  ejs@<3.1.7: '>=3.1.7'
+  moment@<2.29.2: '>=2.29.2'
+
 specifiers:
   '@nestjs/cli': ^8.2.2
   '@nestjs/common': ^8.4.0
@@ -165,7 +170,7 @@ packages:
       '@angular-devkit/schematics': 13.2.5_chokidar@3.5.3
       ansi-colors: 4.1.1
       inquirer: 8.2.0
-      minimist: 1.2.5
+      minimist: 1.2.6
       symbol-observable: 4.0.0
     transitivePeerDependencies:
       - chokidar
@@ -4092,6 +4097,10 @@ packages:
 
   /minimist/1.2.5:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
+    dev: true
+
+  /minimist/1.2.6:
+    resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: true
 
   /moment-timezone/0.5.34:

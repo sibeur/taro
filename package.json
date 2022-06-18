@@ -102,5 +102,12 @@
   },
   "peerDependencies": {
     "webpack": "^5.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "minimist@<1.2.6": ">=1.2.6",
+      "ejs@<3.1.7": ">=3.1.7",
+      "moment@<2.29.2": ">=2.29.2"
+    }
   }
 }
