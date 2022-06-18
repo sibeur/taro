@@ -13,6 +13,8 @@ import { MediaRuleController } from './controllers/media-rule.controller';
 import { SimpleAuthModule } from '@core/simple-auth';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MediaEventService } from './services/media-event.service';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from '@core/common/filters/all_exception.filter';
 
 @Module({
   imports: [
@@ -39,7 +41,13 @@ export class MediaModule {
         SimpleAuthModule.forFeature(),
         EventEmitterModule.forRoot(),
       ],
-      providers: [TaskSchedulerService],
+      providers: [
+        TaskSchedulerService,
+        {
+          provide: APP_FILTER,
+          useClass: AllExceptionsFilter,
+        },
+      ],
       controllers: [MediaController, MediaRuleController],
     };
   }

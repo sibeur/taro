@@ -16,12 +16,11 @@ export class HttpOkResponseInterceptor<T>
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<HttpResponse<T>> {
-    const { statusCode } = context.switchToHttp().getResponse();
     return next.handle().pipe(
       map((resp) => {
         const data = resp.data || null;
-        const message = resp.message || '';
-        return { statusCode, message, data };
+        const msg = resp.msg || '';
+        return { msg, data };
       }),
     );
   }

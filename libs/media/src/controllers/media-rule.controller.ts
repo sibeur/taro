@@ -5,10 +5,12 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
   Put,
+  UseFilters,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
@@ -49,7 +51,7 @@ export class MediaRuleController {
   async create(@Body() body: MutateMediaRuleDto) {
     const { id } = await this.ruleService.create(body);
     return {
-      message: 'Success to create media rule.',
+      msg: 'Success to create media rule.',
       data: id,
     };
   }
@@ -60,7 +62,7 @@ export class MediaRuleController {
   async update(@Param('id') id: string, @Body() body: MutateMediaRuleDto) {
     await this.ruleService.updateById(id, body);
     return {
-      message: 'Success to update media rule.',
+      msg: 'Success to update media rule.',
     };
   }
 
@@ -69,7 +71,7 @@ export class MediaRuleController {
   async delete(@Param('id') id: string) {
     await this.ruleService.destroyById(id);
     return {
-      message: 'Success to delete media rule.',
+      msg: 'Success to delete media rule.',
     };
   }
 }

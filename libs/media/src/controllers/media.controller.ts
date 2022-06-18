@@ -12,6 +12,7 @@ import {
   Body,
   Delete,
   Query,
+  HttpCode,
 } from '@nestjs/common';
 import { MediaService } from '@core/media/services/media.service';
 import { FileUpload } from '@core/media/decorators/file_upload.decorator';
@@ -34,7 +35,7 @@ export class MediaController {
     private eventEmitter: EventEmitter2,
     private taskService: TaskSchedulerService,
   ) {}
-  
+
   @UseInterceptors(HttpOkResponseInterceptor)
   @Version('1')
   @Get()
