@@ -60,6 +60,7 @@ export class MongooseRQNRepository<Entity, MongoSchemaModel>
   }
 
   async findById(id: string): Promise<Entity> {
+    if (id === '') throw new BadRequestException('ID cannot empty');
     const query = await this.model.findOne({ _id: id });
     if (!query) return null;
     return fromJSON<Entity>(query.toJSON());
