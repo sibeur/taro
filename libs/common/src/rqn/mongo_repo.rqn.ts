@@ -54,7 +54,14 @@ export class MongooseRQNRepository<Entity, MongoSchemaModel>
 
   async findOneBy(params: RQNDataParams): Promise<Entity> {
     const filter = this.parseFilter(params.filter);
-    const query = await this.model.findOne(filter as object);
+    const select = params.select
+      ? this.parseSelect(params.select)
+          .map((field) => ({
+            [field]: 1,
+          }))
+          .reduce((a, b) => ({ ...a, ...b }), {})
+      : {};
+    const query = await this.model.findOne(filter as object, select);
     if (!query) return null;
     return fromJSON<Entity>(query.toJSON());
   }

@@ -9,7 +9,7 @@ export type RQNDataListParams = {
 
 export type RQNDataParams = {
   filter?: RQNFilterable;
-  select?: string[];
+  select?: RQNSelectable;
 };
 
 export type RQNFilterable = object;
