@@ -1,26 +1,15 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
-import { ClientRepository } from './repositories/client.repository';
-import { Client } from './entities/client';
-import { readFileSync } from 'fs';
 import { AuthDriver } from './typesAndInterface/auth';
-import auth_config from './configs/auth_config';
 import { ClientModel, ClientSchema } from './schemas/client.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-
-const clientJsonFactory = {
-  provide: 'clientJson',
-  useFactory: () => {
-    if (auth_config().driver !== AuthDriver.JSON_FILE) return [];
-    const json = JSON.parse(readFileSync(auth_config().json_file, 'utf8'));
-    if (!Array.isArray(json)) throw new Error('client json invalid');
-
-    const clients = json.map(
-      (c) => new Client(c.clientId, c.secretKey, c.role),
-    );
-    return clients;
-  },
-};
+import {
+  clientAuthConfigFactory,
+  clientJsonFactory,
+  clientModelFactory,
+  clientRepositoryFactory,
+} from './providers/client.provider';
+import auth_config from './configs/auth_config';
 
 const conditionalImport = () => {
   let modules = [];
@@ -36,7 +25,13 @@ const conditionalImport = () => {
 };
 @Module({
   imports: [],
-  providers: [AuthService, ClientRepository, clientJsonFactory],
+  providers: [
+    AuthService,
+    clientRepositoryFactory,
+    clientJsonFactory,
+    clientModelFactory,
+    clientAuthConfigFactory,
+  ],
   exports: [AuthService],
 })
 export class SimpleAuthModule {

@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Client } from '../entities/client';
-import { ClientRepository } from '../repositories/client.repository';
+import { ClientRepository } from '../typesAndInterface/client';
 
 @Injectable()
 export class AuthService {
-  constructor(private clientRepo: ClientRepository) {}
+  constructor(
+    @Inject('ClientRepository') private clientRepo: ClientRepository,
+  ) {}
   async validateCredential(
     clientId: string,
     secretKey: string,
