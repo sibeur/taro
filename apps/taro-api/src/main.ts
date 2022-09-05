@@ -3,13 +3,13 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { AppModule } from './app.module';
+import { TaroAPIModule } from './app.module';
 import fmp from 'fastify-multipart';
 import { VersioningType } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
+    TaroAPIModule,
     new FastifyAdapter(),
   );
   app.enableCors();
