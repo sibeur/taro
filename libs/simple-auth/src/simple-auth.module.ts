@@ -4,12 +4,11 @@ import { AuthDriver } from './typesAndInterface/auth';
 import { ClientModel, ClientSchema } from './schemas/client.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
-  clientAuthConfigFactory,
   clientJsonFactory,
-  clientModelFactory,
   clientRepositoryFactory,
 } from './providers/client.provider';
 import auth_config from './configs/auth_config';
+import { ConfigModule } from '@nestjs/config';
 
 const conditionalImport = () => {
   let modules = [];
@@ -24,13 +23,11 @@ const conditionalImport = () => {
   return modules;
 };
 @Module({
-  imports: [],
+  imports: [ConfigModule.forFeature(auth_config)],
   providers: [
     AuthService,
     clientRepositoryFactory,
     clientJsonFactory,
-    clientModelFactory,
-    clientAuthConfigFactory,
   ],
   exports: [AuthService],
 })

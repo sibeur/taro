@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Client } from '../entities/client';
-import { ClientRepository } from '../typesAndInterface/client';
+import { AuthDriver, ClientRepository } from '../typesAndInterface';
 
 @Injectable()
 export class ImplClientFileRepository implements ClientRepository {
-  constructor(private clientJson: Client[]) {}
+  private readonly logger = new Logger('ClientRepository');
+  constructor(private clientJson: Client[]) {
+    this.logger.log(`Simple Auth Driver: ${AuthDriver.JSON_FILE}`);
+  }
 
   async findClientById(clientId: string): Promise<Client | null> {
     const [client] = this.clientJson.filter(

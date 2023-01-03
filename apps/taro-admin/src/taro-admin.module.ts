@@ -9,7 +9,9 @@ import { TaroAdminService } from './taro-admin.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     MongooseModule.forRoot(CONF().MONGO_URL),
     MediaModule,
     SimpleAuthModule.forFeature(),

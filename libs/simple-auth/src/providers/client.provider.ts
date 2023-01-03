@@ -1,52 +1,51 @@
-import auth_config, { AuthConfig } from '../configs/auth_config';
+import { AuthConfig } from '../configs/auth_config';
 import { Client } from '../entities/client';
 import { ClientModel } from '../schemas/client.schema';
 import { Model } from 'mongoose';
 import { AuthDriver } from '../typesAndInterface/auth';
 import { readFileSync } from 'fs';
-import { ImplClientDBRepository } from '../repositories/client-db.repository';
-import { ImplClientFileRepository } from '../repositories/client-file.repository';
+import { ImplClientDBRepository, ImplClientFileRepository } from '../repositories';
 import { getModelToken } from '@nestjs/mongoose';
+import { ConfigService } from '@nestjs/config';
 
-export const clientModelFactory = {
-  provide: 'CLIENT_MODEL',
-  useValue: getModelToken(ClientModel.collName),
-};
-
-export const clientAuthConfigFactory = {
-  provide: 'AUTH_CONFIG',
-  useValue: auth_config(),
-};
+const modelToken = getModelToken(ClientModel.collName)
 
 export const clientJsonFactory = {
   provide: 'CLIENT_JSON',
-  useFactory: (authConfig: AuthConfig) => {
-    if (authConfig.driver !== AuthDriver.JSON_FILE) return [];
-    const json = JSON.parse(readFileSync(authConfig.json_file, 'utf8'));
-    if (!Array.isArray(json)) throw new Error('client json invalid');
-
-    const clients = json.map(
-      (c) => new Client(c.clientId, c.secretKey, c.role),
-    );
-    return clients;
+  useFactory: (configService: ConfigService<AuthConfig>) => {
+    try {
+      const driver = configService.get('driver');
+      const json_file = configService.get('json_file');
+      if (driver !== AuthDriver.JSON_FILE) return [];
+      const json = JSON.parse(readFileSync(json_file, 'utf8'));
+      if (!Array.isArray(json)) throw new Error('client json invalid');
+  
+      const clients = json.map(
+        (c) => new Client(c.clientId, c.secretKey, c.role),
+      );
+      return clients;
+    } catch (error) {
+      return []
+    }
   },
-  inject: [{ token: 'AUTH_CONFIG', optional: false }],
+  inject: [ConfigService],
 };
 
 export const clientRepositoryFactory = {
   provide: 'ClientRepository',
   useFactory: (
-    authConfig?: AuthConfig,
+    configService: ConfigService<AuthConfig>,
     clientJson?: Client[],
     clientModel?: Model<ClientModel>,
   ) => {
-    if (authConfig.driver === AuthDriver.DB)
+    const driver = configService.get<string>('driver')
+    if (driver === AuthDriver.DB)
       return new ImplClientDBRepository(clientModel);
     return new ImplClientFileRepository(clientJson);
   },
   inject: [
-    { token: 'AUTH_CONFIG', optional: false },
+    ConfigService,
     { token: 'CLIENT_JSON', optional: true },
-    { token: 'CLIENT_MODEL', optional: true },
+    { token: modelToken, optional: true },
   ],
 };
