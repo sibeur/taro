@@ -13,14 +13,14 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
   app.useStaticAssets({
-    root: join(__dirname, '..', 'taro-admin/public'),
+    root: join(__dirname, 'public'),
     prefix: '/public/',
   });
   app.setViewEngine({
     engine: {
       ejs: require('ejs'),
     },
-    templates: join(__dirname, '..', 'taro-admin/views'),
+    templates: join(__dirname, 'views'),
   });
   app.register(secureSession, {
     secret: 'JAAzr&gMfq&9q&HPgx?Y5dXagYEA!cJycJ8bt!3e',
